@@ -1,0 +1,132 @@
+ /* Estilo para el contenedor del formulario */
+ .container {
+    margin-top: 20px; /* Separación de la parte superior */
+    padding: 20px; /* Espaciado interno del contenedor */
+    border-radius: 10px; /* Borde redondeado */
+    width: 100%; /* Ancho del contenedor */
+    padding-bottom: 10px;
+    display: flex;
+}
+
+/* Estilos para la ventana emergente */
+.ventana-emergente {
+    display: none; /* Inicialmente oculta la ventana emergente */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Asegura que la ventana emergente esté por encima de otros elementos */
+    max-width: 400px;
+}
+
+/* Estilo para el botón de cerrar */
+.ventana-emergente button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+}
+
+label {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+a {
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+b {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.centrar-botones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+}
+
+/* Estilos para el botón */
+.button {
+    margin-top: 30px; /* Espacio encima del botón */
+}
+
+.button-column {
+    white-space: nowrap;
+    display: flex;
+}
+
+.button-column button {
+    margin-right: 5px;
+}
+/* Estilo para el formulario */
+form {
+    border: 1px solid #ccc; /* Borde del formulario */
+    padding: 20px; /* Espaciado interno del formulario */
+    border-radius: 10px; /* Borde redondeado */
+}
+
+/* Estilo para la imagen a la derecha */
+.image-container {
+    float: right; /* Posiciona a la derecha */
+    width: 30%; /* Ancho de la imagen */
+}
+
+.centre-tittle {
+    text-align: center;
+}
+
+/* Estilos para el rectángulo vertical en la parte izquierda */
+/* Estilos para el contenedor y el panel izquierdo */
+.container-page {
+    width: 100%; /* Establece la altura al 100% de la altura de la pantalla */
+    display: flex;
+}
+
+/* Estilo para el contenido principal */
+.content {
+    margin: 30px;
+}
+
+.sidebar {
+    background-color: #1b212cff;
+    color: rgb(255, 255, 255);
+    padding: 20px;
+}
+
+/* Estilos para el contenido principal */
+.content {
+    padding: 20px;
+}
+
+h1, p {
+    color: #333;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 10px; /* Ajusta el valor según tu preferencia */
+}
+th, td {
+    padding: 10px; /* Añade espacio interno en las celdas según tu preferencia */
+}
+.estado-apagado {
+    color: #e06666ff;
+}
+.estado-encendido {
+    color: #93c47dff;
+}
+

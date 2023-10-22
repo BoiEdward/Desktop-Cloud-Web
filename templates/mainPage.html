@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Página principal</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <iframe src="navbar?email={{.email}}" frameborder="0" scrolling="no" width="100%" height="100%"> </iframe>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body style="background-color: #d9d9d9ff;">
+    <div class="container-page">
+        <!-- Menu de la izquierda -->
+
+        <div class="content">
+            <h1>TUS MÁQUINAS VIRTUALES:</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ip</th>
+                        <th>Sistema Operativo</th>
+                        <th>Estado</th>
+                        <th>Control</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .machines}}
+                    <tr style="background-color: {{if eq .Estado "Apagado"}}#e06666ff{{else}}#93c47dff{{end}}">
+                        <td>{{.Nombre}}</td>
+                        <td>
+                            {{if eq .Ip ""}}
+                                No asignada
+                            {{else}}
+                                {{.Ip}}
+                            {{end}}
+                        </td>                                            
+                        <td>{{.Sistema_operativo}}</td>
+                        <td>{{.Estado}}</td>
+                        <td class="button-column">
+                            <input type="hidden" name="nombreMaquina" value="{{.Nombre}}">
+                            <form method="post" action="/powerMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                <button type="submit" class="btn btn-outline-success btn-sm" style="padding: 0; margin: 0;">
+                                    <img style="width: 30px;" src="/static/images/icons/power.png" alt="Botón 1">
+                                </button>
+                            </form>
+                            
+                            <form method="post" action="/configMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                <button type="button" class="btn btn-outline-success btn-sm" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('{{.Nombre}}','{{.Sistema_operativo}}','{{.Memoria}}')">
+                                    <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
+                                </button>
+                            </form>                         
+                            <form method="post" action="/deleteMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                <button type="submit" class="btn btn-outline-success btn-sm" style="padding: 0; margin: 0;">
+                                    <img style="width: 30px;" src="/static/images/icons/delete.png" alt="Botón 3">
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+            <div class="centrar-botones">
+                <button type="button" class="btn btn-primary" onclick="abrirVentanaEmergente()">Crear Máquina Virtual</button>
+            </div>
+        </div>
+    </div>
+
+    <!--VENTANAS EMERGENTES OCULTAS-->
+
+    <div id="ventanaEmergente" class="ventana-emergente">
+        <button onclick="cerrarVentanaEmergente()">X</button>
+        <form method="post" action="/mainPage">
+            <h2 class="centre-tittle">CREAR MÁQUINA VIRTUAL</h2>
+            <div class="form-group">
+                <label for="vmname">Nombre de la máquina:</label>
+                <input type="text" class="form-control" id="vmname" name="vmname" required>
+            </div>
+            <div class="form-group">
+                <label for="os">Sistema operativo</label>
+                <input type="text" class="form-control" id="os" name="os" required>
+            </div>
+            <div class="form-group">
+                <label for="memory">Cantidad de Memoria</label>
+                <input type="text" class="form-control" id="memory" name="memory" required>
+            </div>
+            <div class="centrar-botones">
+                <button type="submit" id="MainSend" class="btn btn-primary">Crear Máquina Virtual</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="VentanaEmergenteConfiguracion" class="ventana-emergente">
+        <button onclick="cerrarVentanaEmergenteConfiguracion()">X</button>
+        <form method="post" action="/configMachine">
+            <h2 class="centre-tittle">CONFIGURAR MÁQUINA VIRTUAL</h2>
+            <div class="form-group">
+                <label for="vmname">Nombre de la máquina:</label>
+                <input type="text" class="form-control" id="vmnameConfig" name="vmname" required>
+            </div>
+            <div class="form-group" style="position: relative;">
+                <label for="os">Sistema operativo</label>
+                <div style="position: relative;">
+                    <input type="text" class="form-control" id="osConfig" name="os" required disabled style="background-color: #f2f2f2; cursor: not-allowed;">
+                    <div style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);">
+                        <img src="/static/images/icons/candado.png" alt="Candado" style="width: 16px; height: 16px;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="memory">Cantidad de Memoria</label>
+                <input type="text" class="form-control" id="memoryConfig" name="memory" required>
+            </div>
+            <div class="centrar-botones">
+                <button type="submit" id="ConfigMachine" class="btn btn-primary">Actualizar Máquina Virtual</button>
+            </div>
+        </form>
+    </div>
+    <table id="machine-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Ip</th>
+                <th>Sistema Operativo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los datos se cargarán aquí dinámicamente -->
+        </tbody>
+    </table>
+    
+</body>
+<!-- Tu código JavaScript para manejar la ventana emergente -->
+<script>
+    function abrirVentanaEmergente() {
+        var ventanaEmergente = document.getElementById("ventanaEmergente");
+        ventanaEmergente.style.display = "block";
+    }
+
+    function abrirVentanaEmergenteConfiguracion(Nombre, Sistema_operativo, Memoria) {
+        var ventanaEmergente = document.getElementById("VentanaEmergenteConfiguracion");
+        ventanaEmergente.style.display = "block";
+
+        // Asigna los valores de los parámetros a los campos del formulario
+        document.getElementById("vmnameConfig").value = Nombre;
+        document.getElementById("osConfig").value = Sistema_operativo;
+        document.getElementById("memoryConfig").value = Memoria;
+    }
+
+    function cerrarVentanaEmergente() {
+        var ventanaEmergente = document.getElementById("ventanaEmergente");
+        ventanaEmergente.style.display = "none";
+    }
+
+    function cerrarVentanaEmergenteConfiguracion() {
+        var ventanaEmergente = document.getElementById("VentanaEmergenteConfiguracion");
+        ventanaEmergente.style.display = "none";
+    }
+    function actualizarTabla() {
+        $.ajax({
+            url: "/api/machines", // Reemplaza con la URL correcta
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                // Limpia la tabla actual
+                $("#machine-table tbody").empty();
+
+                // Itera a través de los datos y agrega filas a la tabla
+                data.forEach(function(machine) {
+                    $("#machine-table tbody").append(
+                        `<tr>
+                            <td>${machine.Nombre}</td>
+                            <td>${machine.Ip === "" ? "No asignada" : machine.Ip}</td>
+                            <td>${machine.Sistema_operativo}</td>
+                            <td>${machine.Estado}</td>
+                        </tr>`
+                    );
+                });
+            },
+            error: function(error) {
+                console.error("Error al obtener datos: " + error);
+            }
+        });
+    }
+
+    // Llama a actualizarTabla al cargar la página y periódicamente para mantener los datos actualizados
+    actualizarTabla();
+    setInterval(actualizarTabla, 5000); // Ejemplo: actualiza cada 5 segundos
+
+</script>
+</html>

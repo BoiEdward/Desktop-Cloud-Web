@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+</head>
+<body>
+    <div class="container">
+        <form method="post" action="/signin" style="margin: 50px;width: 400px;">
+            <h2 class="centre-tittle">Registro</h2>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" class="form-control" id="apellido" name="apellido" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electronico:</label>
+                <input type="text" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="centrar-botones">
+                <button type="submit" class="btn btn-primary">Registrarme</button>
+            </div>
+        </form>
+        <!-- Imagen a la derecha -->
+        <div class="image-container" style="margin: 20px;">
+            <img src="/static/images/icon.png">
+        </div>
+    </div>
+</body>
+</html>
