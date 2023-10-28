@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perfil</title>
+    <!-- Agrega tus enlaces a hojas de estilo CSS y scripts JavaScript aquí -->
+</head>
+<body>
+    <h1>Perfil de Usuario</h1>
+    
+    <form id="user-profile-form" action="/guardar-perfil" method="POST">
+        <!-- Campo de Nombre -->
+        <label for="nombre">Nombre:</label>
+        
+        <!-- Campo de Apellido -->
+        <label for="apellido">Apellido:</label>
+        
+        <!-- Campo de Correo -->
+        <label for="correo">Correo:</label>
+        
+        <!-- Campo de Contraseña -->
+        <label for="contrasena">Contraseña:</label>
+        
+        <!-- Campo de Rol -->
+        <label for="rol">Rol:</label>
+        <select id="rol" name="rol">
+            <option value="usuario">Usuario</option>
+            <option value="admin">Administrador</option>
+        </select>
+        
+        <button type="submit">Guardar Perfil</button>
+    </form>
+</body>
+</html>

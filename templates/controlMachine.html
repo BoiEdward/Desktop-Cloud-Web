@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Página principal</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/styleControlMachine.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body style="background-color: #d9d9d9ff;">
+    <div class="container">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <h1 style="font-family: 'Arial', sans-serif; color: #333;">TUS MÁQUINAS VIRTUALES</h1>
+            </div>
+            <div class="centrar-botones">
+                <button onclick="abrirVentanaEmergente()" type="button" class="btn btn-primary" style="margin-top: 10px; font-family: 'Arial', sans-serif; background-color: #337ab7; border-color: #2e6da4;">
+                    Crear Máquina Virtual
+                    <img src="/static/images/icons/add.png" alt="Icono" style="width: 16px; height: 16px; margin-left: 5px;">
+                </button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="machine-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>IP</th>
+                        <th>Sistema Operativo</th>
+                        <th>Estado</th>
+                        <th>Control</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los datos se cargarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <!--VENTANAS EMERGENTES OCULTAS-->
+    <div id="ventanaEmergente" class="ventana-emergente">
+        <button onclick="cerrarVentanaEmergente()">X</button>
+        <form method="post" action="/api/createMachine">
+            <h2 class="centre-tittle">CREAR MÁQUINA VIRTUAL</h2>
+            <div class="form-group" style="margin-top: 30px;">
+                <label for="vmnameCreate">Nombre de la máquina:</label>
+                <input type="text" class="form-control" name="vmnameCreate" id="vmnameCreate" required>
+            </div>
+            <div class="form-group">
+                <label for="osCreate">Sistema operativo</label>
+                <select class="form-control" id="osCreate" name="osCreate" required>
+                    <option value="Debian">Debian</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="memoryCreate">Cantidad de Memoria</label>
+                <select class="form-control" id="memoryCreate" name="memoryCreate" required>
+                    <option value="512">512 MB</option>
+                    <option value="1024">1 GB</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cpuCreate">Cantidad de CPU</label>
+                <select class="form-control" id="cpuCreate" name="cpuCreate" required>
+                    <option value="1">1 Núcleos</option>
+                    <option value="2">2 Núcleos</option>
+                    <option value="3">3 Núcleos</option>
+                    <option value="4">4 Núcleos</option>
+                </select>
+            </div>
+            <div class="centrar-botones">
+                <button type="submit" id="MainSend" class="btn btn-primary">Crear Máquina Virtual</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="VentanaEmergenteConfiguracion" class="ventana-emergente">
+        <button onclick="cerrarVentanaEmergenteConfiguracion()">X</button>
+        
+        <form method="post" action="/configMachine">
+            <h2 class="centre-tittle">CONFIGURAR MÁQUINA VIRTUAL</h2>
+
+            <div class="form-group" style="position: relative; margin-top: 30px;">
+                <label for="vmnameConfig">Nombre de la máquina</label>
+                <div style="position: relative;">
+                    <input type="text" class="form-control" id="vmnameConfig" name="vmnameConfig" required readonly style="background-color: #f2f2f2; cursor: not-allowed;">
+                    <div style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);">
+                        <img src="/static/images/icons/candado.png" alt="Candado" style="width: 16px; height: 16px;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="position: relative;">
+                <label for="os">Sistema operativo</label>
+                <div style="position: relative;">
+                    <input type="text" class="form-control" id="osConfig" name="osConfig" required disabled style="background-color: #f2f2f2; cursor: not-allowed;">
+                    <div style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);">
+                        <img src="/static/images/icons/candado.png" alt="Candado" style="width: 16px; height: 16px;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="memory">Cantidad de Memoria</label>
+                <select class="form-control" id="memoryConfig" name="memoryConfig" required>
+                    <option value="512">512 MB</option>
+                    <option value="1024">1 GB</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cpuConfig">Cantidad de CPU</label>
+                <select class="form-control" id="cpuConfig" name="cpuConfig" required>
+                    <option value="1">1 Núcleos</option>
+                    <option value="2">2 Núcleos</option>
+                    <option value="3">3 Núcleos</option>
+                    <option value="4">4 Núcleos</option>
+                </select>
+            </div>
+            <div class="centrar-botones">
+                <button type="submit" id="ConfigMachine" class="btn btn-primary">Actualizar Máquina Virtual</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="VentanaEmergenteEliminacion" class="ventana-emergente">
+        
+        <form method="post" action="/deleteMachine">
+            <h2 class="centre-tittle">CONFIRMACIÓN DE ELIMINACIÓN</h2>
+            <div class="form-group" style="text-align: center;">
+                <label for="vmnameCreate">¿Está seguro que desea eliminar la máquina virtual?</label>
+                <div style="text-align: center;">
+                    <input type="text" class="form-control" id="vmnameDelete" name="vmnameDelete" required readonly style="background-color: #f2f2f2; width: 100%;cursor: not-allowed; text-align: center; margin-top: 20px;">
+                </div>
+            </div>
+            
+            <div class="centrar-botones" style="margin-top: 20px;">
+                <button type="submit" id="DeleteMachine" style="background-color: rgba(255, 0, 0, 0.687); width: 100px; margin-right: 10px;" class="btn btn-Succes">ELIMINAR</button>
+                <button type="button" onclick="cerrarVentanaEmergenteEliminar()" style="background-color: rgba(0, 128, 0, 0.723); width: 100px; margin-left: 10px;" class="btn btn-Succes">CANCELAR</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="VentanaEmergenteInformacion" class="ventana-emergente">
+        <button onclick="cerrarVentanaEmergenteInformacion()">X</button>
+        
+        <form action="">
+            <h1 class="centre-tittle">INFORMACIÓN DE LA MÁQUINA</h1>
+            <ul style="margin-top: 30px;">
+                <li>
+                    <strong>Nombre:</strong>
+                    <span id="nombreSpan"></span>
+                </li>
+                <li>
+                    <strong>Sistema Operativo:</strong>
+                    <span id="sistemaOperativoSpan"></span>
+                </li>
+                <li>
+                    <strong>Distribución:</strong>
+                    <span id="distribucionSpan"></span>
+                </li>
+                <li>
+                    <strong>CPU:</strong>
+                    <span id="cpuSpan"></span>
+                </li>
+                <li>
+                    <strong>Memoria:</strong>
+                    <span id="memoriaSpan"></span>
+                </li>
+                <li>
+                    <strong>Estado:</strong>
+                    <span id="estadoSpan"></span>
+                </li>
+                <li>
+                    <strong>IP:</strong>
+                    <span id="ipSpan"></span>
+                </li>
+                <li>
+                    <strong>Url de Conexión:</strong>
+                    <span id="urlSpan"></span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</body>
+<!-- Tu código JavaScript para manejar la ventana emergente -->
+<script>
+
+    var ventanaConfiguracionAbierta = false;
+
+    function abrirVentanaEmergente() {
+        ventanaConfiguracionAbierta = true;
+
+        var ventanaEmergente = document.getElementById("ventanaEmergente");
+        ventanaEmergente.style.display = "block";
+    }
+
+    function abrirVentanaEmergenteConfiguracion(Nombre, Sistema_operativo, Memoria, Cpu) {
+        ventanaConfiguracionAbierta = true;
+
+        var ventanaEmergente = document.getElementById("VentanaEmergenteConfiguracion");
+        ventanaEmergente.style.display = "block";
+
+        // Asigna los valores de los parámetros a los campos del formulario
+        document.getElementById("vmnameConfig").value = Nombre;
+        document.getElementById("osConfig").value = Sistema_operativo;
+        document.getElementById("memoryConfig").value = Memoria;
+        document.getElementById("cpuConfig").value = Cpu;
+        document.getElementById("nombreMaquina").value = Nombre;
+    }
+
+    function abrirVentanaEmergenteEliminacion( nombre ){
+        ventanaConfiguracionAbierta = true;
+
+        var VentanaEmergenteEliminacion = document.getElementById("VentanaEmergenteEliminacion");
+
+        document.getElementById("vmnameDelete").value = nombre;
+
+        VentanaEmergenteEliminacion.style.display = "block";
+    }
+
+
+    function abrirVentanaEmergenteInformacion(nombre, sistemaOperativo, distribucion, ip, ram, cpu, estado) {
+        ventanaConfiguracionAbierta = true;
+
+        var ventanaEmergente = document.getElementById("VentanaEmergenteInformacion");
+        ventanaEmergente.style.display = "block";
+
+        // Asignar valores a los elementos <span> con sus respectivos ids
+
+        // Nombre de la Máquina
+        document.getElementById("nombreSpan").textContent = nombre;
+
+        // Sistema Operativo de la Máquina
+        document.getElementById("sistemaOperativoSpan").textContent = "GNU/" + sistemaOperativo;
+
+        // Distribución de la Máquina
+        document.getElementById("distribucionSpan").textContent = distribucion;
+
+        // Modelo de CPU
+        if ( cpu == 1 ){
+            document.getElementById("cpuSpan").textContent = cpu + " Núcleo";
+        }else {
+            document.getElementById("cpuSpan").textContent = cpu + " Núcleos";
+
+        }
+
+        // Memoria de la Máquina
+        document.getElementById("memoriaSpan").textContent = ram + " MB";
+
+        // Estado de la Máquina
+        document.getElementById("estadoSpan").textContent = estado;
+
+        // IP de la Máquina
+        if  ( ip != ""){
+            document.getElementById("ipSpan").textContent = ip;
+            document.getElementById("urlSpan").textContent = "https://"+ip+":4200"
+        }else{
+            document.getElementById("ipSpan").textContent = "No asignada";
+            document.getElementById("urlSpan").textContent = "No asignada"
+        }
+    }
+
+    function cerrarVentanaEmergente() {
+        ventanaConfiguracionAbierta = false;
+
+        var ventanaEmergente = document.getElementById("ventanaEmergente");
+        ventanaEmergente.style.display = "none";
+    }
+
+    function cerrarVentanaEmergenteConfiguracion() {
+        ventanaConfiguracionAbierta = false;
+
+        var ventanaEmergente = document.getElementById("VentanaEmergenteConfiguracion");
+        ventanaEmergente.style.display = "none";
+    }
+
+    function cerrarVentanaEmergenteInformacion(){
+        ventanaConfiguracionAbierta = false;
+
+        var ventanaEmergente = document.getElementById("VentanaEmergenteInformacion");
+        ventanaEmergente.style.display = "none";
+    }
+
+    function cerrarVentanaEmergenteEliminar(){
+        ventanaConfiguracionAbierta = false;
+
+        var VentanaEmergenteEliminacion = document.getElementById("VentanaEmergenteEliminacion");
+        VentanaEmergenteEliminacion.style.display = "none";
+    }
+
+    function actualizarTabla() {
+
+        if (ventanaConfiguracionAbierta) {
+        // Realiza la actualización solo si la ventana de configuración no está abierta
+            return;
+        }
+        $.ajax({
+            url: "/api/machines", // Reemplaza con la URL correcta
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                // Limpia la tabla actual
+                $("#machine-table tbody").empty();
+                // Itera a través de los datos y agrega filas a la tabla
+                data.forEach(function(machine) {
+                    switch (machine.Estado) {
+                        case "Apagado":
+                            backgroundColor = "#e06666ff"; // Rojo
+                            $("#machine-table tbody").append(
+                            `<tr style="background-color: ${backgroundColor}">
+                                <td>${machine.Nombre}</td>
+                                <td>${machine.Ip === "" ? "No asignada" : machine.Ip}</td>
+                                <td>${machine.Distribucion_sistema_operativo}</td>
+                                <td>${machine.Estado}</td>
+                                
+                                <td class="button-column">
+                                    <form method="post" action="/powerMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                    <input type="hidden" name="nombreMaquina" value="${machine.Nombre}">
+                                    <button type="submit" class="btn btn-link" style="padding: 0; margin: 0;">
+                                        <img style="width: 35px;" src="/static/images/icons/power.png" alt="Botón 1">
+                                    </button>
+                                    </form>
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Distribucion_sistema_operativo}','${machine.Ram}','${machine.Cpu}')">
+                                        <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
+                                    </button>
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}')">
+                                        <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 4">
+                                    </button>
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteEliminacion('${machine.Nombre}')">
+                                        <img style="width: 30px;" src="/static/images/icons/delete.png" alt="Botón 3">
+                                    </button>
+                                </td>
+                                </td>
+                            </tr>`
+                            );
+                            break;
+                        case "Encendido":
+                            backgroundColor = "#93c47dff"; // Verde
+                            $("#machine-table tbody").append(
+                            `<tr style="background-color: ${backgroundColor}">
+                                <td>${machine.Nombre}</td>
+                                <td style="position: relative;">
+                                    ${machine.Ip === "" ? "No asignada" : machine.Ip}
+                                    
+                                    <!-- Muestra el botón solo si la IP está asignada -->
+                                    ${machine.Ip !== "" ? `
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="copiarText('${machine.Ip}')">
+                                        <img style="width: 30px;" src="/static/images/icons/copy.png" alt="Botón 5">
+                                    </button>
+                                    ` : ''}
+                                </td>
+
+                                <td>${machine.Distribucion_sistema_operativo}</td>
+                                <td>${machine.Estado}</td>
+                                
+                                <td class="button-column">
+                                    <form method="post" action="/powerMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                    <input type="hidden" name="nombreMaquina" value="${machine.Nombre}">
+                                    <button type="submit" class="btn btn-link"" style="padding: 0; margin: 0;">
+                                        <img style="width: 35px;" src="/static/images/icons/power.png" alt="Botón 1">
+                                    </button>
+                                    </form>
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Distribucion_sistema_operativo}','${machine.Ram}','${machine.Cpu}')" disabled>
+                                        <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
+                                    </button>
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}')">
+                                        <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 3">
+                                    </button>
+                                    <form method="post" action="/deleteMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                        <input type="hidden" name="nombreMaquina" value="${machine.Nombre}">
+                                        <button type="submit" class="btn btn-link" style="padding: 0; margin: 0;" disabled>
+                                            <img style="width: 30px;" src="/static/images/icons/delete.png" alt="Botón 4">
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>`
+                            );
+                            break;
+                        case "Procesando":
+                            backgroundColor = "#83DEE3"; // Azul
+                            $("#machine-table tbody").append(
+                            `<tr style="background-color: ${backgroundColor}">
+                                <td>${machine.Nombre}</td>
+                                <td>${machine.Ip === "" ? "No asignada" : machine.Ip}</td>
+                                <td>${machine.Distribucion_sistema_operativo}</td>
+                                <td>${machine.Estado}</td>
+                            
+                                <td class="button-column">
+                                    <form method="post" action="/powerMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                    <input type="hidden" name="nombreMaquina" value="${machine.Nombre}">
+                                    <button type="submit" class="btn btn-link" style="padding: 0; margin: 0;" disabled>
+                                        <img style="width: 35px;" src="/static/images/icons/power.png" alt="Botón 1">
+                                    </button>
+                                    </form>
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Memoria}','${machine.Cpu}')" disabled>
+                                        <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
+                                    </button>
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}')">
+                                        <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 4">
+                                    </button>
+                                    <form method="post" action="/deleteMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
+                                        <input type="hidden" name="nombreMaquina" value="${machine.Nombre}">
+                                        <button type="submit" class="btn btn-link" style="padding: 0; margin: 0;" disabled>
+                                            <img style="width: 30px;" src="/static/images/icons/delete.png" alt="Botón 3">
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>`
+                            );
+                            break;
+                        default:
+                            backgroundColor = ""; // Puedes proporcionar un valor predeterminado si es necesario
+                    }
+     
+                });
+            },
+            error: function(error) {
+                console.error("Error al obtener datos: " + error);
+            }
+        });
+    }
+
+    function copiarText(texto) {
+        // Crea un elemento de entrada temporal
+        const tempInput = document.createElement("input");
+        tempInput.value = texto;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+
+        // Intenta copiar el texto al portapapeles
+        document.execCommand("copy");
+
+        // Elimina el elemento de entrada temporal
+        document.body.removeChild(tempInput);
+    }
+
+    // Llama a actualizarTabla al cargar la página y periódicamente para mantener los datos actualizados
+    actualizarTabla();
+    setInterval(actualizarTabla, 500);
+</script>
+</html>

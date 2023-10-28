@@ -1,0 +1,45 @@
+.navbar {
+    background-color: #1b212cff;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos a ambos lados */
+}
+
+.navbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.custom-link {
+    font-weight: bold; /* Hace que el texto sea negrilla */
+    font-size: 25px; /* Tamaño de fuente personalizado */
+    color: #fff; /* Color del texto (blanco) */
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    margin-left: 20px; /* Margen izquierdo entre el ícono y el enlace */
+}
+
+.navbar ul {
+    list-style: none; /* Quita los puntos de lista predeterminados */
+    display: flex; /* Convierte la lista en un contenedor flex */
+    align-items: center; /* Centra verticalmente los elementos */
+    margin: 0; /* Elimina el margen predeterminado de la lista */
+    padding: 0; /* Elimina el relleno predeterminado de la lista */
+}
+
+.navbar li {
+    margin-right: 20px; /* Margen derecho entre elementos de la lista */
+    list-style: none; /* Quita los puntos de lista predeterminados */
+}
+
+.navbar a {
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    color: #fff; /* Color del texto (blanco) */
+    margin-left: 20px; /* Espacio entre elementos de la lista */
+}
+
+/* Estilo para el ícono */
+.navbar img {
+    margin-right: 10px; /* Margen derecho entre el ícono y el enlace */
+}

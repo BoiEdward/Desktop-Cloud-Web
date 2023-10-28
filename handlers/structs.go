@@ -1,33 +1,24 @@
 package handlers
 
-type Account struct {
-	Username string `json:"nombre"`
-	Email    string `json:"correo"`
-	Password string `json:"contrasenia"`
-}
-
 type Persona struct {
 	Nombre      string
 	Apellido    string
 	Email       string
 	Contrasenia string
-}
-
-type Specifications struct {
-	Name   string `json:"nombre"`
-	OSType string `json:"tipoSO"`
-	Memory int    `json:"memoria"`
-	CPU    int    `json:"cpu"`
+	Rol         string
 }
 
 type Maquina_virtual struct {
-	Uuid              string
-	Nombre            string
-	Sistema_operativo string
-	Memoria           int
-	Cpu               int
-	Estado            string
-	Hostname          string
-	Ip                string
-	Persona_email     string
+	Uuid                           string
+	Nombre                         string
+	Ram                            int
+	Cpu                            int
+	Ip                             string
+	Estado                         string
+	Hostname                       string
+	Persona_email                  string
+	Host_id                        int
+	Disco_id                       int
+	Sistema_operativo              string
+	Distribucion_sistema_operativo string
 }

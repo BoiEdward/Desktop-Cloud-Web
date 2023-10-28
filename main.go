@@ -3,6 +3,7 @@ package main
 import (
 	"AppWeb/handlers"
 	"log"
+	"os"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -10,6 +11,11 @@ import (
 )
 
 func main() {
+
+	// Parametro del puerto
+	args := os.Args[1]
+	port := ":" + args
+
 	r := gin.Default()
 
 	// Configurar la tienda de cookies para las sesiones
@@ -24,24 +30,28 @@ func main() {
 	r.GET("/signin", handlers.SigninPage)
 	r.GET("/mainPage", handlers.MainPage)
 	r.GET("/navbar", handlers.NavbarPage)
+	r.GET("/profile", handlers.ProfilePage)
+	r.GET("/welcome", handlers.WelcomePage)
+
 	r.GET("/scrollmenu", handlers.Scrollmenu)
 	r.GET("/api/machines", handlers.GetMachines)
+	r.GET("/controlMachine", handlers.ControlMachine)
+	r.GET("actualizaciones-maquinas", handlers.ActualizacionesMaquinas)
 
 	r.POST("/login", handlers.Login)
 	r.POST("/signin", handlers.Signin)
-	r.POST("/mainPage", handlers.MainSend)
+	r.POST("/api/createMachine", handlers.MainSend)
 	r.POST("/powerMachine", handlers.PowerMachine)
 	r.POST("/deleteMachine", handlers.DeleteMachine)
 	r.POST("/configMachine", handlers.ConfigMachine)
 
+	r.POST("/cambiar-contenido", handlers.EnviarContenido)
+
 	// Ruta para cerrar sesión
 	r.GET("/logout", handlers.Logout)
 
-	// Ruta para cerrar sesión
-	//r.GET("/logout", handlers.Logout)
-
 	// Iniciar la aplicación
-	err := r.Run(":8080")
+	err := r.Run(port)
 	if err != nil {
 		log.Fatal(err)
 	}

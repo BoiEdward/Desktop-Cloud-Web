@@ -3,16 +3,130 @@
 <head>
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/styleSidebar.css">
 </head>
-<body>
+<body style="background-color: #1b212cff;">
     <div class="sidebar">
-        <h3><u>> Lista de Maquinas</u></h2>
-        </br>
-        <h3>Conexiones</h2>
-        </br>
-
+        <div class="top-links">
+            <h3 style="margin-top: 30px;"><a href="#" id="listaMaquinas" class="sidebar-link">Lista de Máquinas</a></h3>
+            <h3><a href="#" id="conexiones" class="sidebar-link">Conexiones</a></h3>
+            <div id="conexiones-section" style="display: none;">
+            </div>
+            <h3><a href="#" id="perfil" class="sidebar-link" style="display: none;">Perfil</a></h3>
+        </div>
+        <h3 class="bottom-link"><a href="#" id="ayuda" style="display: none" class="sidebar-link">Centro de Ayuda</a></h3>
     </div>
+    
+    <script>
+        const listaMaquinasLink = document.getElementById("listaMaquinas");
+        const conexionesLink = document.getElementById("conexiones");
+        const perfilLink = document.getElementById("perfil");
+        const ayudaLink = document.getElementById("ayuda");
+        const conexionesSection = document.getElementById("conexiones-section");
+
+        listaMaquinasLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            bloquearConexiones();
+            cambiarContenido('controlMachine');
+        });
+
+        conexionesLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            mostrarConexiones();
+        });
+
+        perfilLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            bloquearConexiones();
+            cambiarContenido('profile');
+        });
+
+        ayudaLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            bloquearConexiones();
+            cambiarContenido('ruta-al-contenido-de-ayuda.html');
+        });
+
+        function mostrarConexiones() {
+            conexionesSection.style.display = "block";
+        }
+
+        function bloquearConexiones(){
+            conexionesSection.style.display = "none";
+        }
+
+        function cambiarContenido(contenido) {
+            fetch("/cambiar-contenido", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ contenido })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Cuando recibas la respuesta del servidor, actualiza el iframe.
+                const iframeControlMachine = window.parent.document.getElementById("mainPageContent");
+                iframeControlMachine.src = data.url;
+            })
+            .catch(error => {
+                console.error("Error al cambiar el contenido:", error);
+            });
+        }
+
+        const sidebarLinks = document.querySelectorAll(".sidebar-link");
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                // Quitar la clase "active-link" de todos los enlaces
+                sidebarLinks.forEach(link => link.classList.remove("active-link"));
+
+                // Agregar la clase "active-link" al enlace seleccionado
+                link.classList.add("active-link");
+
+                // Tu código para cambiar el contenido aquí...
+            });
+        });
+
+        function obtenerActualizaciones() {
+        if (conexionesLink.classList.contains("active-link")) {
+            fetch('/actualizaciones-maquinas')
+                .then(response => response.json())
+                .then(data => {
+                    // Actualiza la lista de máquinas en el HTML
+                    const listaMaquinas = document.getElementById("conexiones-section");
+                    listaMaquinas.innerHTML = ''; // Limpia el contenido existente
+
+                    data.forEach(maquina => {
+                        if (maquina.Estado === 'Encendido') {
+                            const item = document.createElement('li');
+                            const link = document.createElement('a');
+                            link.href = `https://${maquina.Ip}:4200`;
+                            link.textContent = maquina.Nombre;
+                            item.appendChild(link);
+                            listaMaquinas.appendChild(item);
+
+                            link.style.color = 'white';
+                            link.style.textDecoration = 'none';
+
+                            // Agregar un evento click para cambiar el contenido del iframe
+                            link.addEventListener('click', function (event) {
+                                event.preventDefault();
+                                cambiarContenido(link.href);
+                            });
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener actualizaciones de máquinas:', error);
+                });
+            }
+        }
+
+        // Llama a la función obtenerActualizaciones a intervalos regulares (por ejemplo, cada 1 segundos)
+        setInterval(obtenerActualizaciones, 1000);
+    </script>
 </body>
 </html>

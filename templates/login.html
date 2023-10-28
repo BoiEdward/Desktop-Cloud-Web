@@ -7,27 +7,25 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 
 </head>
-<body>
+<body style="align-items: center;">
     <div class="container">
-        <form method="post" action="/login" style="margin: 50px; width: 500px;">
+        <form method="post" action="/login" style="margin: 50px; width: 400px;">
             <h2 class="centre-tittle">Iniciar sesión</h2>
             <div class="form-group">
                 <label for="email">Correo electronico:</label>
-                <input type="text" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">Contraseña:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="centrar-botones">
-                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                <b href="/signin" class="btn btn-primary">Registrarse</b>
+                <button type="submit" class="btn btn-primary" style="margin-top: 30px;">Iniciar sesión</button>
+                <a href="/signin" class="btn btn-primary">Registrarse</a>
             </div>
         </form>
             <!-- Imagen a la derecha -->
-        <div class="image-container" style="margin: 20px;">
-            <img src="/static/images/icon.png">
-        </div>
+        <img src="/static/images/icon.png" style=" width: 300px; height: 350px; margin-top: 60px;">
     </div>
 </body>
 </html>

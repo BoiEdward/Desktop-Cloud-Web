@@ -89,22 +89,18 @@ form {
     text-align: center;
 }
 
-/* Estilos para el rectángulo vertical en la parte izquierda */
-/* Estilos para el contenedor y el panel izquierdo */
 .container-page {
-    width: 100%; /* Establece la altura al 100% de la altura de la pantalla */
-    display: flex;
+    display: flex; /* Utiliza el modelo de caja flexible para distribuir el espacio verticalmente */
+    height: 100vh; /* Establece la altura de la div al 100% del alto de la ventana del navegador */
+}
+
+iframe {
+    height: 100%; /* Establece la altura de los iframes al 100% del contenedor padre (.container-page) */
 }
 
 /* Estilo para el contenido principal */
 .content {
     margin: 30px;
-}
-
-.sidebar {
-    background-color: #1b212cff;
-    color: rgb(255, 255, 255);
-    padding: 20px;
 }
 
 /* Estilos para el contenido principal */
@@ -123,10 +119,12 @@ table {
 th, td {
     padding: 10px; /* Añade espacio interno en las celdas según tu preferencia */
 }
+
 .estado-apagado {
     color: #e06666ff;
 }
 .estado-encendido {
     color: #93c47dff;
 }
+
 
