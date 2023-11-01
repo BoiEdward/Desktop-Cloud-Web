@@ -34,13 +34,16 @@ func ControlMachine(c *gin.Context) {
 		machines = []Maquina_virtual{}
 	}
 
-	// Consultar las máquinas virtuales desde tu función consultarMaquinas
-	// machines, err := consultarMaquinas(email.(string))
-	// Maneja el error si es necesario
+	// Agregar la variable booleana `machinesChange` a la sesión y establecerla en true
+	session.Set("machinesChange", true)
+	session.Save()
+
+	machinesChange := session.Get("machinesChange")
 
 	c.HTML(http.StatusOK, "controlMachine.html", gin.H{
-		"email":    email,
-		"machines": machines,
+		"email":          email,
+		"machines":       machines,
+		"machinesChange": machinesChange,
 	})
 }
 
@@ -75,10 +78,17 @@ func MainSend(c *gin.Context) {
 		return
 	}
 
-	sendJSONMachineToServer(jsonData)
-
-	c.Redirect(http.StatusFound, "/controlMachine")
-
+	if sendJSONMachineToServer(jsonData) {
+		// Registro exitoso, muestra un mensaje de éxito en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"SuccessMessage": "¡Creación de Máquina Virtual Exitosa.",
+		})
+	} else {
+		// Registro erróneo, muestra un mensaje de error en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"ErrorMessage": "Creación de Máquina Virtual Erronea, Intente de nuevo.",
+		})
+	}
 }
 
 func sendJSONMachineToServer(jsonData []byte) bool {
@@ -189,7 +199,19 @@ func PowerMachine(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
-	c.Redirect(http.StatusFound, "controlMachine")
+	if resp.StatusCode == http.StatusOK {
+		// Registro exitoso, muestra un mensaje de éxito en el HTML
+		textMessege := "¡Encendiendo" + nombre + ", Porfavor espere."
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"SuccessMessage": textMessege,
+		})
+	} else {
+		// Registro erróneo, muestra un mensaje de error en el HTML
+		textMessege := " Error al Encender " + nombre + ", Intente de nuevo."
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"ErrorMessage": textMessege,
+		})
+	}
 }
 
 func DeleteMachine(c *gin.Context) {
@@ -224,7 +246,17 @@ func DeleteMachine(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
-	c.Redirect(http.StatusFound, "/controlMachine")
+	if resp.StatusCode == http.StatusOK {
+		// Registro exitoso, muestra un mensaje de éxito en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"SuccessMessage": "¡Eliminación de Máquina Virtual Exitosa.!",
+		})
+	} else {
+		// Registro erróneo, muestra un mensaje de error en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"ErrorMessage": "Eliminación de Máquina Virtual Erronea, Intente de nuevo.!",
+		})
+	}
 }
 
 func ConfigMachine(c *gin.Context) {
@@ -279,7 +311,17 @@ func ConfigMachine(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
-	c.Redirect(http.StatusFound, "/controlMachine")
+	if resp.StatusCode == http.StatusOK {
+		// Registro exitoso, muestra un mensaje de éxito en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"SuccessMessage": "¡Actualización de Máquina Virtual Exitosa.",
+		})
+	} else {
+		// Registro erróneo, muestra un mensaje de error en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"ErrorMessage": "¡Actualización de Máquina Virtual Erronea, Intente de nuevo.!",
+		})
+	}
 }
 
 func GetMachines(c *gin.Context) {

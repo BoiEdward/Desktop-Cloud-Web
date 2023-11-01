@@ -39,9 +39,15 @@ func Signin(c *gin.Context) {
 	}
 
 	if sendRegisterJSONToServer(jsonData) {
-		c.Redirect(http.StatusFound, "/login")
+		// Registro exitoso, muestra un mensaje de éxito en el HTML
+		c.HTML(http.StatusOK, "signin.html", gin.H{
+			"SuccessMessage": "¡Registro exitoso! Ahora puedes iniciar sesión.",
+		})
 	} else {
-		c.Redirect(http.StatusFound, "/signin")
+		// Registro erróneo, muestra un mensaje de error en el HTML
+		c.HTML(http.StatusOK, "signin.html", gin.H{
+			"ErrorMessage": "El registro ha fallado. Inténtalo de nuevo.",
+		})
 	}
 }
 

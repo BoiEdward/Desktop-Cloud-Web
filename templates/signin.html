@@ -7,11 +7,12 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 
 </head>
-<body>
+<body style="height: 100vh">
+    </div>
     <div class="container">
         <form method="post" action="/signin" style="margin: 50px;width: 400px;">
             <h2 class="centre-tittle">Registro</h2>
-            <div class="form-group">
+            <div class="form-group" >
                 <label for="nombre">Nombre:</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" required>
             </div>
@@ -30,11 +31,47 @@
             <div class="centrar-botones">
                 <button type="submit" class="btn btn-primary">Registrarme</button>
             </div>
+            <div class="text-center">
+                ¿Ya tienes una cuenta?
+            </br>
+                <a href="/login">Inicia sesión</a>
+            </div>
         </form>
         <!-- Imagen a la derecha -->
-        <div class="image-container" style="margin: 20px;">
-            <img src="/static/images/icon.png" style=" width: 350px;">
+        <img src="/static/images/icon.png" style=" width: 300px; height: 350px; margin-top: 60px;">
+    </div>
+
+    <div class="container">
+        <!-- Div para la alerta centrada -->
+        <div id="alert-container">
+            <div id="alert-message" class="alert" role="alert">
         </div>
     </div>
+
+    <script>
+        function showAlert(message, alertType) {
+            var alertBox = document.getElementById("alert-message");
+            alertBox.innerText = message;
+            alertBox.className = "alert alert-" + alertType;
+            var alertContainer = document.getElementById("alert-container");
+            alertContainer.style.display = "block";
+    
+            // Ocultar la alerta después de 5 segundos (5000 milisegundos)
+            setTimeout(function () {
+                alertContainer.style.display = "none";
+            }, 5000);
+        }
+    
+        var successMessage = "{{ .SuccessMessage }}";
+        if (successMessage !== "") {
+            showAlert(successMessage, "success");
+        }
+    
+        var errorMessage = "{{ .ErrorMessage }}";
+        if (errorMessage !== "") {
+            showAlert(errorMessage, "danger");
+        }
+    </script>    
+
 </body>
 </html>
