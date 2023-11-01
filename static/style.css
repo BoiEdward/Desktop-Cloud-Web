@@ -1,11 +1,16 @@
- /* Estilo para el contenedor del formulario */
- .container {
-    margin-top: 20px; /* Separación de la parte superior */
-    padding: 20px; /* Espaciado interno del contenedor */
-    border-radius: 10px; /* Borde redondeado */
-    width: 100%; /* Ancho del contenedor */
-    padding-bottom: 10px;
+/* Estilo para el contenedor principal */
+.container {
     display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+}
+
+/* Estilo para el contenedor de contenido centrado */
+.center-content {
+    display: flex;
+    align-items: center; /* Centra el contenido verticalmente en el contenedor de contenido */
+    padding: 20px;
+    border-radius: 10px;
 }
 
 /* Estilos para la ventana emergente */

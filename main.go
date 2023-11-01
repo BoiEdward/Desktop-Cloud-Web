@@ -44,6 +44,7 @@ func main() {
 	r.POST("/powerMachine", handlers.PowerMachine)
 	r.POST("/deleteMachine", handlers.DeleteMachine)
 	r.POST("/configMachine", handlers.ConfigMachine)
+	r.POST("/api/loginTemp", handlers.LoginTemp)
 
 	r.POST("/cambiar-contenido", handlers.EnviarContenido)
 
