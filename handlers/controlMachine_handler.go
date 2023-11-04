@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -70,9 +71,15 @@ func MainSend(c *gin.Context) {
 	os := "Linux"
 
 	// Crear una estructura Account y convertirla a JSON
-	Specifications := Maquina_virtual{Nombre: vmname, Sistema_operativo: os, Distribucion_sistema_operativo: ditOs, Ram: memory, Cpu: cpu, Persona_email: userEmail}
+	maquina_virtual := Maquina_virtual{Nombre: vmname, Sistema_operativo: os, Distribucion_sistema_operativo: ditOs, Ram: memory, Cpu: cpu, Persona_email: userEmail}
+	clientIP := c.ClientIP()
 
-	jsonData, err := json.Marshal(Specifications)
+	payload := map[string]interface{}{
+		"specifications": maquina_virtual,
+		"clientIP":       clientIP,
+	}
+
+	jsonData, err := json.Marshal(payload)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -171,10 +178,12 @@ func PowerMachine(c *gin.Context) {
 
 	nombre := c.PostForm("nombreMaquina")
 	fmt.Println(nombre)
+	clientIP := c.ClientIP()
 
 	payload := map[string]interface{}{
 		"tipo_solicitud": "start",
 		"nombreVM":       nombre,
+		"clientIP":       clientIP,
 	}
 
 	jsonData, err := json.Marshal(payload)
@@ -199,15 +208,25 @@ func PowerMachine(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
+	var respuesta map[string]string
+
+	err = json.NewDecoder(resp.Body).Decode(&respuesta)
+	if err != nil {
+		log.Println("Error al decodificar el body de la respuesta")
+		return
+	}
+
+	mensaje := respuesta["mensaje"]
+
 	if resp.StatusCode == http.StatusOK {
-		// Registro exitoso, muestra un mensaje de éxito en el HTML
-		textMessege := "¡Encendiendo" + nombre + ", Porfavor espere."
+
+		textMessege := "¡" + mensaje + nombre + ". Por favor espere."
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
 			"SuccessMessage": textMessege,
 		})
 	} else {
 		// Registro erróneo, muestra un mensaje de error en el HTML
-		textMessege := " Error al Encender " + nombre + ", Intente de nuevo."
+		textMessege := " Error al Encender " + nombre + ". Intente de nuevo."
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
 			"ErrorMessage": textMessege,
 		})

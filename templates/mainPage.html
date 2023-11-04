@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Página principal</title>
+    <title>Desktop Cloud Uniquindio</title>
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/styleMainPage.css">
-    <link rel="stylesheet" type="text/css" href="/static/styleNavbar.css">    
+    <link rel="stylesheet" type="text/css" href="/static/styleNavbar.css">
 </head>
+
 <body style="background-color: #d9d9d9ff; height: 100vh;">
     <div class="navbar" style="height: 20vh;">
         <ul>
-            <li><img src="/static/images/icon.png" width="50" style="margin-left: 20px;"></li>
+            <li><img src="/static/images/logo.jpg" class="img-bar" ></li>
             <li><a href="mainPage" class="custom-link">Desktop Cloud UQ</a></li>
-            <li class="navbar-right"><a>{{.email}}</a></li>
-            <li class="navbar-right"><a href="/logout">Cerrar sesión</a></li>
         </ul>
+        <ul>
+            <li class="navbar-right"><a>{{.email}}</a></li>
+            <li class="navbar-right">
+                <button class="logout-button" onclick="window.location.href='/logout'">Cerrar sesión</button>
+            </li>
+        </ul>
+        
     </div>
     <div class="container-page" style="height: 80vh;">
         <iframe src="scrollmenu" frameborder="0" scrolling="no" width="20%"></iframe>
-        <iframe id="mainPageContent" src="welcome" scrolling="auto"  width="80%"></iframe>
-    </div> 
+        <iframe id="mainPageContent" src="welcome" scrolling="auto" width="80%"></iframe>
+    </div>
     <script>
         function cambiarContenido(contenido) {
             const inframeMainPageContent = document.getElementById("mainPageContent");
@@ -32,7 +39,7 @@
         var inframe = document.getElementById("mainPageContent");
 
         // Espera a que el contenido del iframe esté completamente cargado
-        inframe.addEventListener("load", function() {
+        inframe.addEventListener("load", function () {
             // Accede al elemento con el id "input" dentro del iframe
             var inputElement = inframe.contentDocument.getElementById("input");
 
@@ -45,5 +52,5 @@
         });
     </script>
 </body>
+
 </html>
- 

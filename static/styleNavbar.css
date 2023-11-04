@@ -3,7 +3,8 @@
     color: #fff;
     padding: 10px;
     display: flex;
-    justify-content: space-between; /* Distribuye los elementos a ambos lados */
+    align-content: center;
+    justify-content: space-between; /* Distribuye los elementos a ambos lados */     
 }
 
 .navbar-right {
@@ -17,7 +18,7 @@
     font-size: 25px; /* Tamaño de fuente personalizado */
     color: #fff; /* Color del texto (blanco) */
     text-decoration: none; /* Quita el subrayado de los enlaces */
-    margin-left: 20px; /* Margen izquierdo entre el ícono y el enlace */
+    margin-left: -20px!important; /* Margen izquierdo entre el ícono y el enlace */
 }
 
 .navbar ul {
@@ -30,6 +31,7 @@
 
 .navbar li {
     margin-right: 20px; /* Margen derecho entre elementos de la lista */
+    margin-left: 20px; /* Margen izquierdo entre elementos de la lista */
     list-style: none; /* Quita los puntos de lista predeterminados */
 }
 
@@ -43,3 +45,28 @@
 .navbar img {
     margin-right: 10px; /* Margen derecho entre el ícono y el enlace */
 }
+
+.img-bar{
+    border-radius: 50px;
+    width: 5em;
+    margin-left: 20px;
+}
+
+/* Estilos para el botón "Cerrar sesión" */
+.logout-button {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    background-color: #1b212cff; /* Color de fondo de la barra de navegación */
+    border: 2px solid white; /* Contorno blanco */
+    border-radius: 10px; /* Esquinas redondeadas */
+    padding: 5px 15px; /* Espaciado interno del botón */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse sobre el botón */
+    /* Otros estilos de tu elección */
+}
+
+.logout-button:hover {
+    background-color: white; /* Cambia el color de fondo al pasar el mouse sobre el botón */
+    color: #1b212cff; /* Cambia el color del texto al pasar el mouse sobre el botón */
+}
+

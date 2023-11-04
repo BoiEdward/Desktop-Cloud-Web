@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/static/styleControlMachine.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/scriptjs/controleMachineScripts.js"></script>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 </head>
 <body style="background-color: #d9d9d9ff;">
@@ -53,7 +53,7 @@
 
     <!--VENTANAS EMERGENTES OCULTAS-->
     <div id="ventanaEmergente" class="ventana-emergente">
-        <button onclick="cerrarVentanaEmergente()">X</button>
+        <button type="button" class="btn-close" aria-label="Cerrar ventana" onclick="cerrarVentanaEmergente()"></button>
         <form method="post" action="/api/createMachine">
             <h2 class="centre-tittle">CREAR MÁQUINA VIRTUAL</h2>
             <div class="form-group" style="margin-top: 30px;">
@@ -71,6 +71,8 @@
                 <select class="form-control" id="memoryCreate" name="memoryCreate" required>
                     <option value="512">512 MB</option>
                     <option value="1024">1 GB</option>
+                    <option value="2048">2 GB</option>
+                    <option value="3072">3 GB</option>
                 </select>
             </div>
             <div class="form-group">
@@ -89,7 +91,7 @@
     </div>
     
     <div id="VentanaEmergenteConfiguracion" class="ventana-emergente">
-        <button onclick="cerrarVentanaEmergenteConfiguracion()">X</button>
+        <button type="button" class="btn-close" aria-label="Cerrar ventana" onclick="cerrarVentanaEmergenteConfiguracion()"></button>
         
         <form method="post" action="/configMachine">
             <h2 class="centre-tittle">CONFIGURAR MÁQUINA VIRTUAL</h2>
@@ -117,6 +119,8 @@
                 <select class="form-control" id="memoryConfig" name="memoryConfig" required>
                     <option value="512">512 MB</option>
                     <option value="1024">1 GB</option>
+                    <option value="2048">2 GB</option>
+                    <option value="3072">3 GB</option>
                 </select>
             </div>
             <div class="form-group">
@@ -135,6 +139,7 @@
     </div>
 
     <div id="VentanaEmergenteEliminacion" class="ventana-emergente">
+        <button type="button" class="btn-close" aria-label="Cerrar ventana" onclick="cerrarVentanaEmergenteEliminar()"></button>
         
         <form method="post" action="/deleteMachine">
             <h2 class="centre-tittle">CONFIRMACIÓN DE ELIMINACIÓN</h2>
@@ -153,7 +158,7 @@
     </div>
 
     <div id="VentanaEmergenteInformacion" class="ventana-emergente">
-        <button onclick="cerrarVentanaEmergenteInformacion()">X</button>
+        <button type="button" class="btn-close" aria-label="Cerrar ventana" onclick="cerrarVentanaEmergenteInformacion()"></button>
         
         <form action="">
             <h1 class="centre-tittle">INFORMACIÓN DE LA MÁQUINA</h1>
@@ -185,6 +190,10 @@
                 <li>
                     <strong>IP:</strong>
                     <span id="ipSpan"></span>
+                </li>
+                <li>
+                    <strong>Hostname:</strong>
+                    <span id="hostnameSpan"></span>
                 </li>
                 <li>
                     <strong>Url de Conexión:</strong>

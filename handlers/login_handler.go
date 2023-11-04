@@ -3,7 +3,9 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 
@@ -38,9 +40,15 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if sendJSONToServer(jsonData) {
+	usuario, er := sendJSONToServer(jsonData)
+	fmt.Println(usuario)
+
+	if er == nil {
 		session := sessions.Default(c)
-		session.Set("email", email) // Almacena el nombre de usuario en la sesión
+		session.Set("email", email) // Almacena el email del usuario en la sesión
+		session.Set("nombre", usuario.Nombre)
+		session.Set("apellido", usuario.Apellido)
+		session.Set("rol", usuario.Rol)
 		session.Save()
 		// Redirigir al usuario a la página principal
 		c.Redirect(302, "/mainPage")
@@ -53,15 +61,39 @@ func LoginTemp(c *gin.Context) {
 	session := sessions.Default(c)
 	serverURL := "http://localhost:8081/json/createGuestMachine" // Cambia esto por la URL de tu servidor en el puerto 8081
 
-	// Crea una solicitud HTTP POST vacía (sin cuerpo)
-	req, err := http.NewRequest("POST", serverURL, nil)
-	if err != nil {
+	clientIP := c.ClientIP()
+
+	//Crea un mapa con la dirección IP del cliente
+	data := map[string]string{
+		"ip": clientIP,
 	}
+
+	// Convierte el mapa a JSON
+	jsonBody, err := json.Marshal(data)
+	if err != nil {
+		// Maneja el error si la conversión falla
+		fmt.Println("Error al convertir a JSON:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error interno del servidor"})
+		return
+	}
+
+	// Crea una solicitud HTTP con el cuerpo JSON
+	req, err := http.NewRequest("POST", serverURL, bytes.NewBuffer(jsonBody))
+	if err != nil {
+		// Maneja el error si la creación de la solicitud falla
+		fmt.Println("Error al crear la solicitud HTTP:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error interno del servidor"})
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
 
 	// Realiza la solicitud
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
+		fmt.Println("Error al realizar la solicitud HTTP:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error interno del servidor"})
+		return
 	}
 	defer resp.Body.Close()
 
@@ -84,7 +116,10 @@ func LoginTemp(c *gin.Context) {
 		mensaje := data["mensaje"]
 		fmt.Println("Mensaje recibido:", mensaje)
 
-		session.Set("email", mensaje) // Almacena el nombre de usuario en la sesión
+		session.Set("email", mensaje)
+		session.Set("nombre", "Usuario")
+		session.Set("apellido", "Temporal")
+		session.Set("rol", "Invitado")
 		session.Save()
 
 		c.Redirect(http.StatusSeeOther, "/controlMachine")
@@ -94,13 +129,14 @@ func LoginTemp(c *gin.Context) {
 
 }
 
-func sendJSONToServer(jsonData []byte) bool {
+func sendJSONToServer(jsonData []byte) (Persona, error) {
 	serverURL := "http://localhost:8081/json/login" // Cambia esto por la URL de tu servidor en el puerto 8081
+	var usuario Persona
 
 	// Crea una solicitud HTTP POST con el JSON como cuerpo
 	req, err := http.NewRequest("POST", serverURL, bytes.NewBuffer(jsonData))
 	if err != nil {
-		return false
+		return usuario, err
 	}
 
 	// Establece el encabezado de tipo de contenido
@@ -110,14 +146,37 @@ func sendJSONToServer(jsonData []byte) bool {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return false
+		return usuario, err
 	}
 	defer resp.Body.Close()
 
 	// Verifica la respuesta del servidor (resp.StatusCode) aquí si es necesario
 	if resp.StatusCode != http.StatusOK {
-		return false
-	} else {
-		return true
+		return usuario, errors.New("Error en la respuesta del servidor")
 	}
+
+	responseBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return usuario, err
+	}
+	var resultado map[string]interface{}
+
+	if err := json.Unmarshal(responseBody, &resultado); err != nil {
+		fmt.Println("Error al deserializar")
+		return usuario, err
+	}
+	specsMap, _ := resultado["usuario"].(map[string]interface{})
+	specsJSON, err := json.Marshal(specsMap)
+	if err != nil {
+		fmt.Println("Error al serializar el usuario:", err)
+		return usuario, err
+	}
+
+	err = json.Unmarshal(specsJSON, &usuario)
+	if err != nil {
+		fmt.Println("Error al deserializar el usuario:", err)
+		return usuario, err
+	}
+
+	return usuario, nil
 }
