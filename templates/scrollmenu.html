@@ -103,7 +103,7 @@
                         if (maquina.Estado === 'Encendido') {
                             const item = document.createElement('li');
                             const link = document.createElement('a');
-                            link.href = `https://${maquina.Ip}:4200`;
+                            link.href = `http://${maquina.Ip}:4200`;
                             link.textContent = maquina.Nombre;
                             item.appendChild(link);
                             listaMaquinas.appendChild(item);

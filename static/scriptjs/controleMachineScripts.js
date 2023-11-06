@@ -32,7 +32,7 @@ var ventanaConfiguracionAbierta = false;
     }
 
 
-    function abrirVentanaEmergenteInformacion(nombre, sistemaOperativo, distribucion, ip, ram, cpu, estado) {
+    function abrirVentanaEmergenteInformacion(nombre, sistemaOperativo, distribucion, ip, ram, cpu, estado, hostname) {
         ventanaConfiguracionAbierta = true;
 
         var ventanaEmergente = document.getElementById("VentanaEmergenteInformacion");
@@ -63,10 +63,12 @@ var ventanaConfiguracionAbierta = false;
         // Estado de la Máquina
         document.getElementById("estadoSpan").textContent = estado;
 
+        document.getElementById("hostnameSpan").textContent = hostname;
+
         // IP de la Máquina
         if  ( ip != ""){
             document.getElementById("ipSpan").textContent = ip;
-            document.getElementById("urlSpan").textContent = "https://"+ip+":4200"
+            document.getElementById("urlSpan").textContent = "http://"+ip+":4200"
         }else{
             document.getElementById("ipSpan").textContent = "No asignada";
             document.getElementById("urlSpan").textContent = "No asignada"
@@ -135,7 +137,7 @@ var ventanaConfiguracionAbierta = false;
                                     <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Distribucion_sistema_operativo}','${machine.Ram}','${machine.Cpu}')">
                                         <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
                                     </button>
-                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}')">
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}', '${machine.Hostname}')">
                                         <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 4">
                                     </button>
                                     <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteEliminacion('${machine.Nombre}')">
@@ -175,7 +177,7 @@ var ventanaConfiguracionAbierta = false;
                                     <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Distribucion_sistema_operativo}','${machine.Ram}','${machine.Cpu}')" disabled>
                                         <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
                                     </button>
-                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}')">
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}', '${machine.hostname}')">
                                         <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 3">
                                     </button>
                                     <form method="post" action="/deleteMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
@@ -207,7 +209,7 @@ var ventanaConfiguracionAbierta = false;
                                     <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Memoria}','${machine.Cpu}')" disabled>
                                         <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
                                     </button>
-                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}')">
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}', '${machine.hostname}')">
                                         <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 4">
                                     </button>
                                     <form method="post" action="/deleteMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">

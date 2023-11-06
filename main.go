@@ -32,6 +32,7 @@ func main() {
 	r.GET("/navbar", handlers.NavbarPage)
 	r.GET("/profile", handlers.ProfilePage)
 	r.GET("/welcome", handlers.WelcomePage)
+	r.GET("/catalog", handlers.CatalogHandler)
 
 	r.GET("/scrollmenu", handlers.Scrollmenu)
 	r.GET("/api/machines", handlers.GetMachines)

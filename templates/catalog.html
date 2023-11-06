@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Máquinas Virtuales</title>
+    <link rel="stylesheet" type="text/css" href="/static/styleCatalog.css">
+</head>
+
+<body>
+    <div class="catalog">
+        {{range .Catalog}}
+        <div class="product">
+            <h2>{{.Nombre}}</h2>
+            <p><strong>Sistema Operativo:</strong> {{.Sistema_operativo}}</p>
+            <p><strong>Distribución:</strong> {{.Distribucion_sistema_operativo}}</p>
+            <p><strong>RAM:</strong> {{.Ram}} GB</p>
+            <p><strong>CPU:</strong> {{.Cpu}} núcleos</p>
+            <a href="/crear/{{.ID}}">
+                <button class="create-button">Crear</button>
+            </a>
+        </div>
+        {{end}}
+    </div>
+</body>
+
+</html>
