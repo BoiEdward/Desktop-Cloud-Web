@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Crear Hosts</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+</head>
+
+<body>
+    <div>
+        <div class="container">
+            <div class="center-content">
+                <form method="post" action="/createHost" style="margin: 50px; width: 400px;">
+                    <h2 class="centre-tittle">Crear Host</h2>
+                    <div class="form-group">
+                        <label for="nameHost">Nombre del Host:</label>
+                        <input type="text" class="form-control" id="nameHost" name="nameHost" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ipHost">Ip del Host:</label>
+                        <input type="text" class="form-control" id="ipHost" name="ipHost" required>
+                    </div>
+                    <div class="centrar-botones">
+                        <button type="submit" class="btn btn-primary" style="margin-top: 30px; width: 120px;">Iniciar sesión</button>
+                    </div>
+
+                </form>
+                <div class="image-container">
+                    <img class="icon-image" src="/static/images/icon.png" style="width: 250px">
+                    <img class="grid-image" src="/static/images/grid.png" style="width: 300px">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#guest-login-btn").on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/loginTemp", // La URL a la que enviarás la solicitud
+                success: function (response) {
+                    // Maneja la respuesta del servidor si es necesario
+                    console.log("Inicio de sesión como invitado exitoso");
+                    window.location.href = "/mainPage";
+                },
+                error: function (error) {
+                    // Maneja errores si ocurren durante la solicitud
+                    console.error("Error al iniciar sesión como invitado", error);
+                }
+            });
+        });
+    });
+</script>
