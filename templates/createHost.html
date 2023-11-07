@@ -7,10 +7,25 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 
+        <link rel="stylesheet" type="text/css" href="/static/styleNavbar.css">
+
 </head>
 
-<body>
-    <div>
+<body style="height: 100vh;">
+    <div class="navbar" style="height: 20vh;">
+        <ul>
+            <li><img src="/static/images/logo.jpg" class="img-bar" ></li>
+            <li><a href="mainPage" class="custom-link">Desktop Cloud UQ</a></li>
+        </ul>
+        <ul>
+            <li class="navbar-right"><a>{{.email}}</a></li>
+            <li class="navbar-right">
+                <button class="logout-button" onclick="window.location.href='/logout'">Cerrar sesión</button>
+            </li>
+        </ul>
+        
+    </div>
+    <div style="height: 80vh;">
         <div class="container">
             <div class="center-content">
                 <form method="post" action="/createHost" style="margin: 50px; width: 400px;">
@@ -24,7 +39,7 @@
                         <input type="text" class="form-control" id="ipHost" name="ipHost" required>
                     </div>
                     <div class="centrar-botones">
-                        <button type="submit" class="btn btn-primary" style="margin-top: 30px; width: 120px;">Iniciar sesión</button>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 30px; width: 120px;">Crear Host</button>
                     </div>
 
                 </form>

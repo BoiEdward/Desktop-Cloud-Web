@@ -34,6 +34,7 @@ func main() {
 	r.GET("/welcome", handlers.WelcomePage)
 	r.GET("/catalog", handlers.CatalogHandler)
 	r.GET("/createHost", handlers.CreateHostPage)
+	r.GET("/helpCenter", handlers.HelpCenterPage)
 
 	r.GET("/scrollmenu", handlers.Scrollmenu)
 	r.GET("/api/machines", handlers.GetMachines)
