@@ -24,6 +24,9 @@ func CreateHostPage(c *gin.Context) {
 }
 
 func CreateHost(c *gin.Context) {
+	// Definir la URL del servidor
+	serverURL := "http://localhost:8081/json/addHost" // Cambia esto por la URL de tu servidor en el puerto 8081
+
 	// Obtener los datos del formulario
 	nombreHost := c.PostForm("nameHost")
 	ipHost := c.PostForm("ipHost")
@@ -42,16 +45,22 @@ func CreateHost(c *gin.Context) {
 		return
 	}
 
-	// Definir la URL del servidor
-	serverURL := "http://localhost:8081/json/addHost" // Cambia esto por la URL de tu servidor en el puerto 8081
-
-	// Realizar una solicitud HTTP POST
-	resp, err := http.Post(serverURL, "application/json", bytes.NewBuffer(jsonData))
+	// Crea una solicitud HTTP POST con el JSON como cuerpo
+	req, err := http.NewRequest("POST", serverURL, bytes.NewBuffer(jsonData))
 	if err != nil {
-		// Manejar el error, por ejemplo, responder con un error HTTP
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al realizar la solicitud HTTP"})
 		return
 	}
+
+	// Establece el encabezado de tipo de contenido
+	req.Header.Set("Content-Type", "application/json")
+
+	// Realiza la solicitud HTTP
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+
 	defer resp.Body.Close()
 
 	// Verificar el código de estado de la respuesta
@@ -62,5 +71,5 @@ func CreateHost(c *gin.Context) {
 	}
 
 	// Responder con una confirmación o redirección si es necesario
-	c.JSON(http.StatusOK, gin.H{"message": "Host creado con éxito"})
+	c.HTML(http.StatusOK, "createHost.html", nil)
 }
