@@ -8,6 +8,25 @@ type Persona struct {
 	Rol         string
 }
 
+type Host struct {
+	Id                             int
+	Nombre                         string
+	Mac                            string
+	Ip                             string
+	Hostname                       string
+	Ram_total                      int
+	Cpu_total                      int
+	Almacenamiento_total           int
+	Ram_usada                      int
+	Cpu_usada                      int
+	Almacenamiento_usado           int
+	Adaptador_red                  string
+	Estado                         string
+	Ruta_llave_ssh_pub             string
+	Sistema_operativo              string
+	Distribucion_sistema_operativo string
+}
+
 type Maquina_virtual struct {
 	Uuid                           string
 	Nombre                         string
