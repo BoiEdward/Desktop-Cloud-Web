@@ -63,6 +63,13 @@ func MainSend(c *gin.Context) {
 
 	// Obtener los datos del formulario
 	vmname := c.PostForm("vmnameCreate")
+	if vmname == "" {
+		// Si el nombre de la máquina virtual está vacío, mostrar un mensaje de error en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"ErrorMessage": "El nombre de la máquina virtual no puede estar vacío.",
+		})
+		return
+	}
 	ditOs := c.PostForm("osCreate")
 	memoryStr := c.PostForm("memoryCreate")
 	memory, err := strconv.Atoi(memoryStr)
@@ -88,12 +95,12 @@ func MainSend(c *gin.Context) {
 	if sendJSONMachineToServer(jsonData) {
 		// Registro exitoso, muestra un mensaje de éxito en el HTML
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
-			"SuccessMessage": "¡Creación de Máquina Virtual Exitosa.",
+			"SuccessMessage": "Solicitud para crear màquina virtual enviada con èxito.",
 		})
 	} else {
 		// Registro erróneo, muestra un mensaje de error en el HTML
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
-			"ErrorMessage": "Creación de Máquina Virtual Erronea, Intente de nuevo.",
+			"ErrorMessage": "Error al enviar la solicitud para crear màquina virtual. Intente de nuevo",
 		})
 	}
 }
@@ -268,12 +275,12 @@ func DeleteMachine(c *gin.Context) {
 	if resp.StatusCode == http.StatusOK {
 		// Registro exitoso, muestra un mensaje de éxito en el HTML
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
-			"SuccessMessage": "¡Eliminación de Máquina Virtual Exitosa.!",
+			"SuccessMessage": "Solicitud para eliminar la màquina enviada con èxito.",
 		})
 	} else {
 		// Registro erróneo, muestra un mensaje de error en el HTML
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
-			"ErrorMessage": "Eliminación de Máquina Virtual Erronea, Intente de nuevo.!",
+			"ErrorMessage": "La solicitud para eliminar la màquina no fue exitosa. Intente de nuevo",
 		})
 	}
 }
@@ -333,12 +340,12 @@ func ConfigMachine(c *gin.Context) {
 	if resp.StatusCode == http.StatusOK {
 		// Registro exitoso, muestra un mensaje de éxito en el HTML
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
-			"SuccessMessage": "¡Actualización de Máquina Virtual Exitosa.",
+			"SuccessMessage": "Solicitud para modificar la màquina virtual enviada con èxito",
 		})
 	} else {
 		// Registro erróneo, muestra un mensaje de error en el HTML
 		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
-			"ErrorMessage": "¡Actualización de Máquina Virtual Erronea, Intente de nuevo.!",
+			"ErrorMessage": "La solicitud para modificar la màquina virtual no tuvo èxito. Intente de nuevo",
 		})
 	}
 }

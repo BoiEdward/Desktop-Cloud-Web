@@ -13,6 +13,7 @@
             <div id="conexiones-section" style="display: none; margin-bottom: 20px;">
             </div>
             <h3><a href="#" id="perfil" class="sidebar-link" >Perfil</a></h3>
+            <h3><a href="#" id="dashboard" class="sidebar-link" >Dashboard</a></h3>
         </div>
         <h3 class="bottom-link"><a href="#" id="ayuda" class="sidebar-link">Centro de Ayuda</a></h3>
     </div>
@@ -21,6 +22,7 @@
         const listaMaquinasLink = document.getElementById("listaMaquinas");
         const conexionesLink = document.getElementById("conexiones");
         const perfilLink = document.getElementById("perfil");
+        const dashboardLink = document.getElementById("dashboard")
         const ayudaLink = document.getElementById("ayuda");
         const conexionesSection = document.getElementById("conexiones-section");
 
@@ -39,6 +41,12 @@
             e.preventDefault();
             bloquearConexiones();
             cambiarContenido('profile');
+        });
+
+        dashboardLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            bloquearConexiones();
+            cambiarContenido('dashboard');
         });
 
         ayudaLink.addEventListener("click", function (e) {
