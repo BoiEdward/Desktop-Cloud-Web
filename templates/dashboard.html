@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Monitoreo Desktop Cloud Uniquindìo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .chart-row {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            width: 50%;
+            padding: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Centro de Monitoreo del Desktop Cloud</h1>
+
+        <div class="chart-row">
+            <div class="chart-container">
+                <canvas id="totalMachinesChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="registeredUsersChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-row">
+            <div class="chart-container">
+                <canvas id="totalCpuChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="totalRamChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var datosCatalogo = JSON.parse('{{ .datosCatalogo | json }}');
+        var totalMachines = datosCatalogo.TotalMaquinas;
+        var totalEncendidas = datosCatalogo.TotalEncendidas;
+        var registeredUsers = datosCatalogo.UsuariosRegistrados;
+        var totalCpu = datosCatalogo.TotalCPU;
+        var totalRam = datosCatalogo.TotalRAM;
+
+        var ctx1 = document.getElementById('totalMachinesChart').getContext('2d');
+        var totalMachinesChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Total de Máquinas', 'Encendidas'],
+                datasets: [{
+                    label: 'Total de Máquinas',
+                    data: [totalMachines, totalEncendidas], 
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('registeredUsersChart').getContext('2d');
+        var registeredUsersChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Usuarios Registrados'],
+                datasets: [{
+                    label: 'Usuarios Registrados',
+                    data: [registeredUsers],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var ctx3 = document.getElementById('totalCpuChart').getContext('2d');
+        var totalCpuChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Total de CPU'],
+                datasets: [{
+                    label: 'Total de CPU',
+                    data: [totalCpu],
+                    backgroundColor: 'rgba(255, 205, 86, 0.2)',
+                    borderColor: 'rgba(255, 205, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var ctx4 = document.getElementById('totalRamChart').getContext('2d');
+        var totalRamChart = new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: ['Total de RAM'],
+                datasets: [{
+                    label: 'Total de RAM',
+                    data: [totalRam],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

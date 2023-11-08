@@ -65,6 +65,8 @@ var ventanaConfiguracionAbierta = false;
 
         document.getElementById("hostnameSpan").textContent = hostname;
 
+        document.getElementById("passwordSpan").textContent = hostname;
+
         // IP de la Máquina
         if  ( ip != ""){
             document.getElementById("ipSpan").textContent = ip;
@@ -177,7 +179,7 @@ var ventanaConfiguracionAbierta = false;
                                     <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Distribucion_sistema_operativo}','${machine.Ram}','${machine.Cpu}')" disabled>
                                         <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
                                     </button>
-                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}', '${machine.hostname}')">
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}', '${machine.Hostname}', '${machine.Hostname}')">
                                         <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 3">
                                     </button>
                                     <form method="post" action="/deleteMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
@@ -209,7 +211,7 @@ var ventanaConfiguracionAbierta = false;
                                     <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteConfiguracion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Memoria}','${machine.Cpu}')" disabled>
                                         <img style="width: 30px;" src="/static/images/icons/config.png" alt="Botón 2">
                                     </button>
-                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}', '${machine.hostname}')">
+                                    <button type="button" class="btn btn-link" style="padding: 0; margin: 0;" onclick="abrirVentanaEmergenteInformacion('${machine.Nombre}','${machine.Sistema_operativo}','${machine.Distribucion_sistema_operativo}', '${machine.Ip}','${machine.Ram}','${machine.Cpu}', '${machine.Estado}', '${machine.Hostname}')">
                                         <img style="width: 35px;" src="/static/images/icons/info.png" alt="Botón 4">
                                     </button>
                                     <form method="post" action="/deleteMachine" style="display: inline-block; padding: 0; margin: 0; border: none;">
