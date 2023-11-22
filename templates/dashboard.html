@@ -66,7 +66,7 @@
         var total_CPU = datosDashboard.Total_CPU;
         var total_CPU_usada = datosDashboard.Total_CPU_usada;
 
-        var colors = ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'];
+        var colors = ['rgba(0, 0, 139, 0.2)', 'rgba(139, 0, 0, 0.2)'];
         var ctx1 = document.getElementById('machinesChart').getContext('2d');
         var mtotalMachinesChart = new Chart(ctx1, {
             type: 'bar',
@@ -85,7 +85,7 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            stepSize : 1
+                            stepSize: 1
                         }
                     }]
                 }
@@ -95,7 +95,7 @@
         var ctx2 = document.getElementById('registeredUsersChart').getContext('2d');
 
         // Definir colores para cada barra
-        var colors = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'];
+        var colors = ['rgba(139, 0, 0, 0.2)', 'rgba(0, 0, 139, 0.2)', 'rgba(0, 100, 0, 0.2)'];
         var registeredUsersChart = new Chart(ctx2, {
             type: 'bar',
             data: {
@@ -114,66 +114,84 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            stepSize : 1
+                            stepSize: 1
                         }
                     }]
                 }
             }
         });
 
-        var colors = ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)'];
+        // Gráfico de CPU
+        var cpuColors = ['rgba(0, 0, 128, 0.6)', 'rgba(139, 0, 0, 0.6)'];
         var ctx3 = document.getElementById('totalCpuChart').getContext('2d');
         var totalCpuChart = new Chart(ctx3, {
-            type: 'bar',
+            type: 'doughnut',
             data: {
-                labels: ['Total CPU Disponible', 'CPU Usada'],
+                labels: ['CPU Disponible', 'CPU Usada'],
                 datasets: [{
-                    label: 'Total de CPU',
                     data: [total_CPU, total_CPU_usada],
-                    backgroundColor: colors,
-                    borderColor: colors,
+                    backgroundColor: cpuColors,
+                    borderColor: cpuColors,
                     borderWidth: 1
                 }]
             },
             options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
+                cutoutPercentage: 70,
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var dataset = data.datasets[tooltipItem.datasetIndex];
+                            var value = dataset.data[tooltipItem.index];
+                            var label = data.labels[tooltipItem.index];
+                            return label + ': ' + value + ' MB';
                         }
-                    }]
+                    }
                 }
             }
         });
 
-        var colors = ['rgba(255, 206, 86, 0.2)', 'rgba(153, 102, 255, 0.2)'];
+        // Gráfico de RAM
+        var ramColors = ['rgba(0, 100, 0, 0.6)', 'rgba(85, 26, 139, 0.6)'];
         var ctx4 = document.getElementById('totalRamChart').getContext('2d');
         var totalRamChart = new Chart(ctx4, {
-            type: 'bar',
+            type: 'doughnut',
             data: {
-                labels: ['Total RAM Disponible', 'Total RAM Usada'],
+                labels: ['RAM Disponible', 'RAM Usada'],
                 datasets: [{
-                    label: 'Total de RAM',
                     data: [total_RAM, total_RAM_usada],
-                    backgroundColor: colors,
-                    borderColor: colors,
+                    backgroundColor: ramColors,
+                    borderColor: ramColors,
                     borderWidth: 1,
                     fill: false
                 }]
             },
             options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            callback: function (value, index, values) {
-                                return value + ' MB'; // Agrega ' MB' al valor en el eje y
-                            }
+                cutoutPercentage: 70,
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var dataset = data.datasets[tooltipItem.datasetIndex];
+                            var value = dataset.data[tooltipItem.index];
+                            var label = data.labels[tooltipItem.index];
+                            return label + ': ' + value + ' MB';
                         }
-                    }]
+                    }
                 }
             }
         });
+
     </script>
 </body>
 

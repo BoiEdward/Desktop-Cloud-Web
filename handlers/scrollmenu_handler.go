@@ -12,6 +12,7 @@ func Scrollmenu(c *gin.Context) {
 	// Acceder a la sesión
 	session := sessions.Default(c)
 	email := session.Get("email")
+	rol := session.Get("rol")
 
 	// Recuperar o inicializar un arreglo de máquinas virtuales en la sesión del usuario
 	machines, _ := consultarMaquinas(email.(string))
@@ -19,6 +20,7 @@ func Scrollmenu(c *gin.Context) {
 	c.HTML(http.StatusOK, "scrollmenu.html", gin.H{
 		"email":    email,
 		"machines": machines,
+		"rol":      rol,
 	})
 }
 

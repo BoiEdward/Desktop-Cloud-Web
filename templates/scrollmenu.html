@@ -22,7 +22,26 @@
         const listaMaquinasLink = document.getElementById("listaMaquinas");
         const conexionesLink = document.getElementById("conexiones");
         const perfilLink = document.getElementById("perfil");
-        const dashboardLink = document.getElementById("dashboard")
+        const dashboardLink = document.getElementById("dashboard");
+
+        var userRole = "{{ .rol }}"; // Puedes obtener esto dinámicamente desde tu aplicación
+
+        // Función para verificar el rol y mostrar/ocultar el enlace al dashboard
+        function verificarRolYMostrarDashboard() {
+
+            // Verifica el rol y muestra/oculta el enlace al dashboard
+            if (userRole !== "Administrador") {
+                dashboardLink.style.display = "none"; // Oculta el enlace
+            } else {
+                dashboardLink.style.display = "block"; // Muestra el enlace
+            }
+        }
+
+        // Llama a la función cuando la página carga
+        window.onload = verificarRolYMostrarDashboard;
+
+
+
         const ayudaLink = document.getElementById("ayuda");
         const conexionesSection = document.getElementById("conexiones-section");
 
