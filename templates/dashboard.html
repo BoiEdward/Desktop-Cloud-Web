@@ -13,7 +13,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 90%;
             margin: 0 auto;
             padding: 20px;
         }
@@ -33,7 +33,7 @@
 
 <body>
     <div class="container">
-        <h1>Centro de Monitoreo del Desktop Cloud</h1>
+        <h1 style="text-align: center;">Centro de Monitoreo del Desktop Cloud</h1>
 
         <div class="chart-row">
             <div class="chart-container">
@@ -88,6 +88,10 @@
                             stepSize: 1
                         }
                     }]
+                },
+                title: {
+                    display: true,
+                    text: 'Máquinas Virtuales'
                 }
             }
         });
@@ -104,7 +108,7 @@
                     label: 'Usuarios Registrados',
                     data: [total_usuarios, total_estudiantes, total_invitados],
                     backgroundColor: colors, // Usa el array de colores para asignar colores a las barras
-                    borderColor: colors, // Usa el mismo array para los bordes si lo deseas
+                    borderColor: colors, 
                     borderWidth: 1,
                     fill: false
                 }]
@@ -117,6 +121,10 @@
                             stepSize: 1
                         }
                     }]
+                },
+                title: {
+                    display: true,
+                    text: 'Usuarios'
                 }
             }
         });
@@ -149,9 +157,13 @@
                             var dataset = data.datasets[tooltipItem.datasetIndex];
                             var value = dataset.data[tooltipItem.index];
                             var label = data.labels[tooltipItem.index];
-                            return label + ': ' + value + ' MB';
+                            return label + ': ' + value + ' Nùcleos';
                         }
                     }
+                },
+                title: {
+                    display: true,
+                    text: 'CPU'
                 }
             }
         });
@@ -185,9 +197,13 @@
                             var dataset = data.datasets[tooltipItem.datasetIndex];
                             var value = dataset.data[tooltipItem.index];
                             var label = data.labels[tooltipItem.index];
-                            return label + ': ' + value + ' MB';
+                            return label + ': ' + value + ' GB';
                         }
                     }
+                },
+                title: {
+                    display: true,
+                    text: 'Memoria RAM'
                 }
             }
         });

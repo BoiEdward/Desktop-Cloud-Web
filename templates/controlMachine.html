@@ -39,7 +39,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>IP</th>
-                        <th>Sistema Operativo</th>
+                        <th>Distribución</th>
                         <th>Estado</th>
                         <th>Control</th>
                     </tr>
@@ -61,15 +61,15 @@
                 <input type="text" class="form-control" name="vmnameCreate" id="vmnameCreate" required>
             </div>
             <div class="form-group">
-                <label for="osCreate">Sistema operativo</label>
+                <label for="osCreate">Distribución</label>
                 <select class="form-control" id="osCreate" name="osCreate" required>
                     <option value="Debian">Debian</option>
+                    <option value="Mint">Linux Mint</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="memoryCreate">Cantidad de Memoria</label>
                 <select class="form-control" id="memoryCreate" name="memoryCreate" required>
-                    <option value="512">512 MB</option>
                     <option value="1024">1 GB</option>
                     <option value="2048">2 GB</option>
                     <option value="3072">3 GB</option>
@@ -78,7 +78,6 @@
             <div class="form-group">
                 <label for="cpuCreate">Cantidad de CPU</label>
                 <select class="form-control" id="cpuCreate" name="cpuCreate" required>
-                    <option value="1">1 Núcleos</option>
                     <option value="2">2 Núcleos</option>
                     <option value="3">3 Núcleos</option>
                     <option value="4">4 Núcleos</option>
@@ -106,7 +105,7 @@
                 </div>
             </div>
             <div class="form-group" style="position: relative;">
-                <label for="os">Sistema operativo</label>
+                <label for="os">Distribución</label>
                 <div style="position: relative;">
                     <input type="text" class="form-control" id="osConfig" name="osConfig" required disabled style="background-color: #f2f2f2; cursor: not-allowed;">
                     <div style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);">
@@ -117,7 +116,6 @@
             <div class="form-group">
                 <label for="memory">Cantidad de Memoria</label>
                 <select class="form-control" id="memoryConfig" name="memoryConfig" required>
-                    <option value="512">512 MB</option>
                     <option value="1024">1 GB</option>
                     <option value="2048">2 GB</option>
                     <option value="3072">3 GB</option>
@@ -126,7 +124,6 @@
             <div class="form-group">
                 <label for="cpuConfig">Cantidad de CPU</label>
                 <select class="form-control" id="cpuConfig" name="cpuConfig" required>
-                    <option value="1">1 Núcleos</option>
                     <option value="2">2 Núcleos</option>
                     <option value="3">3 Núcleos</option>
                     <option value="4">4 Núcleos</option>

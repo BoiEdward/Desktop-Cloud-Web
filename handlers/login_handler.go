@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -62,10 +63,12 @@ func LoginTemp(c *gin.Context) {
 	serverURL := "http://localhost:8081/json/createGuestMachine" // Cambia esto por la URL de tu servidor en el puerto 8081
 
 	clientIP := c.ClientIP()
+	distribucion := c.PostForm("osCreate")
 
 	//Crea un mapa con la dirección IP del cliente
 	data := map[string]string{
-		"ip": clientIP,
+		"ip":           clientIP,
+		"distribucion": distribucion,
 	}
 
 	// Convierte el mapa a JSON
@@ -179,4 +182,61 @@ func sendJSONToServer(jsonData []byte) (Persona, error) {
 	}
 
 	return usuario, nil
+}
+
+func GuestLoginSend(c *gin.Context) {
+	// Acceder a la sesión
+	session := sessions.Default(c)
+	email := session.Get("email")
+
+	if email == nil {
+		// Si el usuario no está autenticado, redirige a la página de inicio de sesión
+		c.Redirect(http.StatusFound, "/login")
+		return
+	}
+
+	userEmail := email.(string)
+
+	// Obtener los datos del formulario
+	vmname := c.PostForm("vmnameCreate")
+	if vmname == "" {
+		// Si el nombre de la máquina virtual está vacío, mostrar un mensaje de error en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"ErrorMessage": "El nombre de la máquina virtual no puede estar vacío.",
+		})
+		return
+	}
+	ditOs := c.PostForm("osCreate")
+	memoryStr := c.PostForm("memoryCreate")
+	memory, err := strconv.Atoi(memoryStr)
+	cpuStr := c.PostForm("cpuCreate")
+	cpu, _ := strconv.Atoi(cpuStr)
+	os := "Linux"
+
+	// Crear una estructura Account y convertirla a JSON
+	maquina_virtual := Maquina_virtual{Nombre: vmname, Sistema_operativo: os, Distribucion_sistema_operativo: ditOs, Ram: memory, Cpu: cpu, Persona_email: userEmail}
+	clientIP := c.ClientIP()
+
+	payload := map[string]interface{}{
+		"specifications": maquina_virtual,
+		"clientIP":       clientIP,
+	}
+
+	jsonData, err := json.Marshal(payload)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if sendJSONMachineToServer(jsonData) {
+		// Registro exitoso, muestra un mensaje de éxito en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"SuccessMessage": "Solicitud para crear màquina virtual enviada con èxito.",
+		})
+	} else {
+		// Registro erróneo, muestra un mensaje de error en el HTML
+		c.HTML(http.StatusOK, "controlMachine.html", gin.H{
+			"ErrorMessage": "Error al enviar la solicitud para crear màquina virtual. Intente de nuevo",
+		})
+	}
 }
