@@ -69,6 +69,7 @@ func main() {
 	r.POST("/configMachine", handlers.ConfigMachine)
 	r.POST("/api/loginTemp", handlers.LoginTemp)
 	r.POST("/createHost", handlers.CreateHost)
+	r.POST("/createDisk", handlers.CreateDisk)
 
 	r.POST("/cambiar-contenido", handlers.EnviarContenido)
 
