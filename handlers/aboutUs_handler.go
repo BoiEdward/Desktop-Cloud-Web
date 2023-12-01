@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func MainPage(c *gin.Context) {
+func AboutUsPage(c *gin.Context) {
 	// Acceder a la sesión
 	session := sessions.Default(c)
 	email := session.Get("email")
@@ -18,7 +18,5 @@ func MainPage(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "mainPage.html", gin.H{
-		"email": email,
-	})
+	c.HTML(http.StatusOK, "aboutUs.html", nil)
 }

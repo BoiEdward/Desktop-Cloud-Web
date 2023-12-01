@@ -14,8 +14,14 @@
             </div>
             <h3><a href="#" id="perfil" class="sidebar-link" >Perfil</a></h3>
             <h3><a href="#" id="dashboard" class="sidebar-link" >Dashboard</a></h3>
+            <h3><a href="#" id="createHost" class="sidebar-link" >Crear Host</a></h3>
+            <h3><a href="#" id="createDisk" class="sidebar-link" >Agregar Disco</a></h3>
+
         </div>
-        <h3 class="bottom-link"><a href="#" id="ayuda" class="sidebar-link">Centro de Ayuda</a></h3>
+        <div class="bottom-link">
+            <h3><a href="#" id="ayuda" class="sidebar-link">Centro de Ayuda</a></h3>
+            <h3><a href="#" id="aboutUs" class="sidebar-link">About Us</a></h3>
+        </div>
     </div>
     
     <script>
@@ -23,6 +29,11 @@
         const conexionesLink = document.getElementById("conexiones");
         const perfilLink = document.getElementById("perfil");
         const dashboardLink = document.getElementById("dashboard");
+        const createHostLink = document.getElementById("createHost");
+        const createDiskLink = document.getElementById("createDisk");
+        const aboutUsLink = document.getElementById("aboutUs");
+
+
 
         var userRole = "{{ .rol }}"; // Puedes obtener esto dinámicamente desde tu aplicación
 
@@ -32,8 +43,12 @@
             // Verifica el rol y muestra/oculta el enlace al dashboard
             if (userRole !== "Administrador") {
                 dashboardLink.style.display = "none"; // Oculta el enlace
+                createHostLink.style.display= "none"
+                createDiskLink.style.display= "none"
             } else {
                 dashboardLink.style.display = "block"; // Muestra el enlace
+                createHostLink.style.display= "block"
+                createDiskLink.style.display= "block"
             }
         }
 
@@ -68,10 +83,28 @@
             cambiarContenido('dashboard');
         });
 
+        createHostLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            bloquearConexiones();
+            cambiarContenido('createHost');
+        });
+
+        createDiskLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            bloquearConexiones();
+            cambiarContenido('createDisk');
+        });
+
         ayudaLink.addEventListener("click", function (e) {
             e.preventDefault();
             bloquearConexiones();
             cambiarContenido('helpCenter');
+        });
+
+        aboutUsLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            bloquearConexiones();
+            cambiarContenido('aboutUs');
         });
 
         function mostrarConexiones() {

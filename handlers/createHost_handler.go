@@ -3,7 +3,9 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -25,17 +27,38 @@ func CreateHostPage(c *gin.Context) {
 
 func CreateHost(c *gin.Context) {
 	// Definir la URL del servidor
-	serverURL := "http://localhost:8081/json/addHost" // Cambia esto por la URL de tu servidor en el puerto 8081
+	serverURL := "http://localhost:8081/json/addHost"
 
 	// Obtener los datos del formulario
 	nombreHost := c.PostForm("nameHost")
 	ipHost := c.PostForm("ipHost")
+	macHost := c.PostForm("macHost")
+	adapHost := c.PostForm("adapHost")
+	soHost := c.PostForm("soHost")
+	hostnameHost := c.PostForm("hostnameHost")
+	ramHostStr := c.PostForm("ramHost")
+	ramHost, _ := strconv.Atoi(ramHostStr)
+	cpuHostStr := c.PostForm("cpuHost")
+	cpuHost, _ := strconv.Atoi(cpuHostStr)
+	almaceHostStr := c.PostForm("almaceHost")
+	almaceHost, _ := strconv.Atoi(almaceHostStr)
+	sshHost := c.PostForm("sshHost")
 
 	// Crear un objeto Host con los datos del formulario
 	host := Host{
-		Nombre: nombreHost,
-		Ip:     ipHost,
+		Nombre:               nombreHost,
+		Ip:                   ipHost,
+		Mac:                  macHost,
+		Adaptador_red:        adapHost,
+		Sistema_operativo:    soHost,
+		Hostname:             hostnameHost,
+		Ram_total:            ramHost,
+		Cpu_total:            cpuHost,
+		Almacenamiento_total: almaceHost,
+		Ruta_llave_ssh_pub:   sshHost,
 	}
+
+	fmt.Println(host)
 
 	// Serializar el objeto host como JSON
 	jsonData, err := json.Marshal(host)
@@ -65,7 +88,7 @@ func CreateHost(c *gin.Context) {
 
 	// Verificar el código de estado de la respuesta
 	if resp.StatusCode != http.StatusOK {
-		// Manejar el error, por ejemplo, responder con un error HTTP
+		// Manejar el error
 		c.JSON(resp.StatusCode, gin.H{"error": "Error en la respuesta del servidor"})
 		return
 	}

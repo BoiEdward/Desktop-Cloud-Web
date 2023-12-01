@@ -7,46 +7,66 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 
-        <link rel="stylesheet" type="text/css" href="/static/styleNavbar.css">
+    <link rel="stylesheet" type="text/css" href="/static/styleNavbar.css">
 
 </head>
 
 <body style="height: 100vh;">
-    <div class="navbar" style="height: 20vh;">
-        <ul>
-            <li><img src="/static/images/logo.jpg" class="img-bar" ></li>
-            <li><a href="mainPage" class="custom-link">Desktop Cloud UQ</a></li>
-        </ul>
-        <ul>
-            <li class="navbar-right"><a>{{.email}}</a></li>
-            <li class="navbar-right">
-                <button class="logout-button" onclick="window.location.href='/logout'">Cerrar sesión</button>
-            </li>
-        </ul>
-        
-    </div>
     <div style="height: 80vh;">
         <div class="container">
             <div class="center-content">
-                <form method="post" action="/createHost" style="margin: 50px; width: 400px;">
+                <form method="post" action="/createHost" style="margin: 50px; width: 120vh;">
                     <h2 class="centre-tittle">Crear Host</h2>
-                    <div class="form-group">
-                        <label for="nameHost">Nombre del Host:</label>
-                        <input type="text" class="form-control" id="nameHost" name="nameHost" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ipHost">Ip del Host:</label>
-                        <input type="text" class="form-control" id="ipHost" name="ipHost" required>
+                    <div style="display: flex;">
+                        <div style="width: 1000px; margin-right: 10px;">
+                            <div class="form-group">
+                                <label for="nameHost">Apodo del Host:</label>
+                                <input type="text" class="form-control" id="nameHost" name="nameHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ipHost">IP del Host:</label>
+                                <input type="text" class="form-control" id="ipHost" name="ipHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="macHost">MAC del Host:</label>
+                                <input type="text" class="form-control" id="macHost" name="macHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adapHost">Adaptador Red del Host:</label>
+                                <input type="text" class="form-control" id="adapHost" name="adapHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="soHost">Sistema Operativo del Host:</label>
+                                <input type="text" class="form-control" id="soHost" name="soHost" required>
+                            </div>
+                        </div>
+                        <div style="width: 1000px; margin-left: 10px;">
+                            <div class="form-group">
+                                <label for="hostnameHost">Username:</label>
+                                <input type="text" class="form-control" id="hostnameHost" name="hostnameHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ramHost">RAM Total del Host (MB):</label>
+                                <input type="number" class="form-control" id="ramHost" name="ramHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cpuHost">CPU Total del Host:</label>
+                                <input type="number" class="form-control" id="cpuHost" name="cpuHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="almaceHost">Almacenamiento Total del Host:</label>
+                                <input type="number" class="form-control" id="almaceHost" name="almaceHost" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sshHost">Ruta de la Llave SSH Host:</label>
+                                <input type="text" class="form-control" id="sshHost" name="sshHost" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="centrar-botones">
                         <button type="submit" class="btn btn-primary" style="margin-top: 30px; width: 120px;">Crear Host</button>
                     </div>
-
                 </form>
-                <div class="image-container">
-                    <img class="icon-image" src="/static/images/icon.png" style="width: 250px">
-                    <img class="grid-image" src="/static/images/grid.png" style="width: 300px">
-                </div>
             </div>
         </div>
 
@@ -54,24 +74,3 @@
 </body>
 
 </html>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#guest-login-btn").on("click", function () {
-            $.ajax({
-                type: "POST",
-                url: "/api/loginTemp", // La URL a la que enviarás la solicitud
-                success: function (response) {
-                    // Maneja la respuesta del servidor si es necesario
-                    console.log("Inicio de sesión como invitado exitoso");
-                    window.location.href = "/mainPage";
-                },
-                error: function (error) {
-                    // Maneja errores si ocurren durante la solicitud
-                    console.error("Error al iniciar sesión como invitado", error);
-                }
-            });
-        });
-    });
-</script>
