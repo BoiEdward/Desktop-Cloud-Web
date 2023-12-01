@@ -6,12 +6,52 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 
+    <style>
+        .center-content {
+            display: flex;
+            flex-direction: row;
+            /* Ahora es una columna para poner las imágenes una debajo de la otra */
+            align-items: center;
+            text-align: center;
+            /* Para centrar el contenido */
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            /* Ajusta el espacio según sea necesario */
+
+        }
+
+        .image-container {
+            display: block;
+            justify-content: space-between;
+            /* Para que las imágenes estén una al lado de la otra */
+            align-items: center;
+            align-self: stretch;
+        }
+
+        .icon-image,
+        .grid-image {
+            margin-right: 20px;
+            /* Ajusta el margen entre las imágenes */
+        }
+
+    </style>
+
 </head>
 <body>
-    </div>
-    <div class="container">
+    <div class="header-container">
+        <div class="image-container">
+            <img class="icon-image" style="width: 70px;" src="/static/images/icon.png">
+            <img class="grid-image" style="width: 150px;" src="/static/images/grid.png">
+        </div>        
+        
+   
         <div class="center-content">
-            <form method="post" action="/signin" style="margin: 50px;width: 400px;">
+            <form method="post" action="/signin" style="width: 400px;">
                 <h2 class="centre-tittle">Registro</h2>
                 <div class="form-group" >
                     <label for="nombre">Nombre:</label>
@@ -38,10 +78,6 @@
                     <a href="/login">Inicia sesión</a>
                 </div>
             </form>
-            <div class="image-container">
-                <img class="icon-image" src="/static/images/icon.png" style="width: 250px; margin-bottom: 40px;">
-                <img class="grid-image" src="/static/images/grid.png" style="width: 300px">
-            </div>
         </div>
     </div>
 
